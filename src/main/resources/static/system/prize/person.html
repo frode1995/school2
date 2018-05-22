@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-body">
+                <div class="fixed-table-toolbar">
+                    <div class="columns pull-left">
+
+                        <button  type="button" class="btn  btn-danger"
+                                 onclick="batchRemove()">
+                            <i class="fa fa-trash" aria-hidden="true"></i>删除
+                        </button>
+                    </div>
+
+                </div>
+                <table id="exampleTable" data-mobile-responsive="true">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<input name="userId" type="hidden" id="userId" th:value="${userId}"/>
+<footer th:include="include :: footer"></footer>
+<script type="text/javascript" src="/js/appjs/sys/prize/person.js"></script>
+</body>
+</html>

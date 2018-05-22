@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>CIM</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/login.css" rel="stylesheet">
+    <!-- 全局js -->
+    <script src="js/jquery.min.js?v=2.1.4" th:src="@{/js/jquery.min.js?v=2.1.4}"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6" th:src="@{/js/bootstrap.min.js?v=3.3.6}"></script>
+    <!-- 自定义js -->
+    <script src="js/content.js?v=1.0.0" th:src="@{/js/content.js?v=1.0.0}"></script>
+    <!-- jQuery Validation plugin javascript-->
+    <script src="js/ajax-util.js"></script>
+    <script src="js/plugins/validate/jquery.validate.min.js" th:src="@{/js/plugins/validate/jquery.validate.min.js}"></script>
+    <script src="js/plugins/validate/messages_zh.min.js" th:src="@{/js/plugins/validate/messages_zh.min.js}"></script>
+    <script src="js/plugins/layer/layer.min.js" th:src="@{/js/plugins/layer/layer.min.js}"></script>
+    <script src="js/jquery.serializejson.min.js" type="text/javascript"></script>
+    <script src="js/particles.js" type="text/javascript"></script>
+   <!--动态背景添加-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="css/demo.css" />
+    <link rel="stylesheet" href="css/templatemo-style.css">
+
+    <style>
+        #tip{
+            font-size: 10px;
+            color: red;
+        }
+
+    </style>
+    <script type="text/javascript" src="js/modernizr.custom.86080.js"></script>
+
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
+        }
+    </script>
+    <script>
+        function first() {
+            window.open("/first");
+        }
+    </script>
+</head>
+<body class="signin">
+<div class="signinpanel">
+    <div id="particles-js" style="z-index: 0"></div>
+
+    <ul class="cb-slideshow">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <div class="row">
+        <div class="col-sm-7">
+            <div class="signin-info">
+                <div class="logopanel m-b">
+                    <h1>CIM</h1>
+                </div>
+                <div class="m-b"></div>
+                <h3>
+                    欢迎使用 <strong>CIM管理系统</strong>
+                </h3>
+                <ul class="m-b">
+                    <li onclick=first()><i class="fa fa-arrow-circle-o-right m-r-xs"></i>
+                        高校信息管理
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-5"  >
+            <form id="signupForm" >
+                <h3 class="text-center">用户登录</h3>
+                <p class="m-t-md text-center">欢迎登录CIM后台管理</p>
+                <!--<label for="tecName" style="font-size: 10px">用户名</label>-->
+                <input type="text" id="username" name="username" class="form-control uname"
+                       placeholder="请输入用户名" tabindex="1"   />
+
+                <!--<label for="tecPassword" style="font-size: 10px">密码</label>-->
+                <input type="password" name="password" id="password"
+                       class="form-control pword m-b" placeholder="请输入密码" tabindex="2"/>
+
+                <!--<label for="myCode" style="font-size: 10px">验证码</label>-->
+                <input type="text" id="myCode" name="myCode" class="form-control pword m-b"
+                       placeholder="请输入验证码" tabindex="3" />
+                <!--<canvas id="myCanvas"  style="z-index:auto "></canvas>-->
+                <input type="button" id="valCode"  name="valCode" class="btn-login font-bold" tabindex="4" style="z-index: auto;width: 80px;height: 40px" onclick="createCode()">
+                <p class="p-lg" id="tip" name="tip" style="z-index: auto;width: 100px;height: 30px"></p>
+                <a id="login" class="btn btn-login btn-block" tabindex="5" style="z-index: auto" >登录</a>
+                <!--<input type="reset" class="btn btn-login btn-block" name="reset" tabindex="5" value="重置" style="z-index: 999"/>-->
+            </form>
+        </div>
+    </div>
+    <div class="footer-link">
+        <p>Copyright © 2018 CIM
+
+            - Design by Frode</p>
+    </div>
+
+</div>
+<script type="text/javascript" src="js/particles.js"></script>
+<script type="text/javascript" src="js/app1.js"></script>
+
+<script type="text/javascript">
+
+    var code ;
+    var oBut=document.getElementById("valCode")
+
+
+    //验证码相关
+/*    function showCheck(a){
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        // ctx.fillRect()
+        // ctx.clearRect(0,0,1000,1000);
+        ctx.fillRect(0,0,60,30)
+        ctx.clearRect(0,0,60,30);
+        ctx.font = "20px 'Microsoft Yahei'";
+        ctx.fillText(a,0,20);
+        ctx.fillStyle = "white";
+    }*/
+    function createCode(){
+        code = "";
+        var codeLength = 4;
+        var selectChar = new Array(0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f','g','h','j','k','m','n','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','J','K','L','M','N','P','Q','R','S','T','U','V','W','X','Y','Z');
+        for(var i=0;i<codeLength;i++) {
+            var charIndex = Math.floor(Math.random()*60);
+            code +=selectChar[charIndex];
+        }
+        if(code.length !== codeLength){
+            createCode();
+        }
+        oBut.value=code
+        console.log(code)
+
+    }
+
+    function validate () {
+        var inputCode = document.getElementById("myCode").value.toUpperCase();//获取输入的验证码
+        var codeToUp=code.toUpperCase();
+        if(inputCode.length <=0) {
+             // document.getElementById("myCode").setAttribute("placeholder","输入验证码");
+            document.getElementById("tip").innerText="输入验证码"
+            fresh();
+            // createCode();
+            return false;
+        }
+        else if(inputCode !== codeToUp ){
+            document.getElementById("myCode").value="";//清空mycode里面的值
+            // document.getElementById("myCode").setAttribute("placeholder","验证码错误");
+            document.getElementById("tip").innerText="验证码错误,请重新输入"
+            fresh();
+            // createCode();
+            return false;
+        }
+        else {
+
+            document.getElementById("tip").innerText="验证通过"
+            return true;
+        }
+
+    }
+
+    $.validator.setDefaults({
+        submitHandler: function () {
+            login();
+        }
+    });
+
+    $(document).ready(function () {
+        //验证码
+        createCode();
+        $("#login").on('click',function(){
+
+                if(validate()===true){
+                    // $("#signupForm").submit();
+                    login()
+                     }else{
+                    createCode();
+                    document.getElementById("myCode").setAttribute("placeholder","验证码错误,请重新输入");
+
+                }
+                }
+            );
+
+
+    });
+    //获取验证码
+    /*function getVerify(obj){
+        obj.src = httpurl + "/sys/getVerify?"+Math.random();
+    }*/
+
+    function login() {
+        $.ajax({
+            type : "POST",
+            url : "/login",
+            data : $('#signupForm').serialize(),
+            success : function(r) {
+                if (r.code === 0) {
+                    parent.location.href = '/index';
+                } else {
+                    layer.msg(r.msg);
+                }
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

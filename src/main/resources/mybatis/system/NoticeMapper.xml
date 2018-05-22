@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.frode.system.dao.NoticeDao">
+
+    <select id="get" resultType="com.frode.system.domain.NoticeDO">
+        select `notice_id`,`notice_text`,`notice_author`,`notice_img_id`,`notice_file_id`,`notice_release_time`,`notice_modify_time` from sys_notice where notice_id = #{value}
+    </select>
+
+    <select id="list" resultType="com.frode.system.domain.NoticeDO">
+        select `notice_id`,`notice_text`,`notice_author`,`notice_img_id`,`notice_file_id`,`notice_release_time`,`notice_modify_time` from sys_notice
+        <where>
+            <if test="noticeId != null and noticeId != ''"> and notice_id = #{noticeId} </if>
+            <if test="noticeText != null and noticeText != ''"> and notice_text  = #{noticeText} </if>
+            <if test="noticeAuthor != null and noticeAuthor != ''"> and notice_author = #{noticeAuthor} </if>
+            <if test="noticeImgId != null and noticeImgId != ''"> and notice_img_id = #{noticeImgId} </if>
+            <if test="noticeFileId  != null and noticeFileId  != ''"> and notice_file_id  = #{noticeFileId } </if>
+            <if test="noticeReleaseTime != null and noticeReleaseTime != ''"> and notice_release_time = #{noticeReleaseTime} </if>
+            <if test="noticeModifyTime != null and noticeModifyTime != ''"> and notice_modify_time = #{noticeModifyTime} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by notice_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_notice
+        <where>
+            <if test="noticeId != null and noticeId != ''"> and notice_id = #{noticeId} </if>
+            <if test="noticeText != null and noticeText != ''"> and notice_text  = #{noticeText} </if>
+            <if test="noticeAuthor != null and noticeAuthor != ''"> and notice_author = #{noticeAuthor} </if>
+            <if test="noticeImgId != null and noticeImgId != ''"> and notice_img_id = #{noticeImgId} </if>
+            <if test="noticeFileId  != null and noticeFileId  != ''"> and notice_file_id  = #{noticeFileId } </if>
+            <if test="noticeReleaseTime != null and noticeReleaseTime != ''"> and notice_release_time = #{noticeReleaseTime} </if>
+            <if test="noticeModifyTime != null and noticeModifyTime != ''"> and notice_modify_time = #{noticeModifyTime} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.frode.system.domain.NoticeDO" useGeneratedKeys="true" keyProperty="noticeId">
+        insert into sys_notice
+        (
+            `notice_id`,`notice_text`,`notice_author`,`notice_img_id`,`notice_file_id`,`notice_release_time`,`notice_modify_time`
+        )
+        values
+        (
+        #{noticeId},
+        #{noticeText},
+        #{noticeAuthor},
+        #{noticeImgId},
+        #{noticeFileId},
+        #{noticeReleaseTime},
+        #{noticeModifyTime}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.frode.system.domain.NoticeDO">
+        update sys_notice
+        <set>
+            <if test="noticeText != null">`notice_text`  = #{noticeText}</if>
+            <if test="noticeAuthor != null">`notice_author` = #{noticeAuthor} </if>
+            <if test="noticeImgId != null">`notice_img_id`  = #{noticeImgId} </if>
+            <if test="noticeFileId != null">`pnotice_file_id`  = #{noticeFileId} </if>
+            <if test="noticeReleaseTime != null">`notice_release_time` = #{noticeReleaseTime} </if>
+            <if test="noticeModifyTime != null">`notice_modify_time` = #{noticeModifyTime} </if>
+        </set>
+        where notice_id = #{noticeId}
+    </update>
+
+    <delete id="remove">
+        delete from sys_notice where notice_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from sys_notice where notice_id in
+        <foreach item="noticeId" collection="array" open="(" separator="," close=")">
+            #{prizeId}
+        </foreach>
+    </delete>
+
+    <select id="listAllNotice" resultType="Long">
+        select DISTINCT notice_id from sys_notice
+    </select>
+</mapper>

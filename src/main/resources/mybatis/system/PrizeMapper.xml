@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.frode.system.dao.PrizeDao">
+
+    <select id="get" resultType="com.frode.system.domain.PrizeDO">
+        select `prize_id`,`awardee`,`prize_time`, `college`,`dp`,
+        `prize_name`,  `prize_project`,`prize_num`,`prize_grade`,`ad_level`,
+        `prize_dept`,`rank`,`prize_img_id`,`prize_file_id`,`prize_info`,
+        `prize_new`,`user_id`
+        from sys_prize where prize_id = #{value}
+    </select>
+
+    <select id="list" resultType="com.frode.system.domain.PrizeDO">
+        select `prize_id`,`awardee`,`prize_time`, `college`,`dp`,
+        `prize_name`,  `prize_project`,`prize_num`,`prize_grade`,`ad_level`,
+        `prize_dept`,`rank`,`prize_img_id`,`prize_file_id`,`prize_info`,
+        `prize_new`,`user_id`
+        from sys_prize
+        <where>
+            <if test="prizeId  != null and prizeId  != ''"> and prize_id  = #{prizeId} </if>
+            <if test="awardee != null and awardee != ''"> and awardee   = #{awardee} </if>
+            <if test="prizeTime != null and prizeTime != ''"> and prize_time = #{prizeTime} </if>
+            <if test="college != null and college != ''"> and college = #{college} </if>
+            <if test="dp != null and dp != ''"> and dp = #{dp}</if>
+            <if test="prizeName  != null and prizeName  != ''"> and prize_name  = #{prizeName} </if>
+            <if test="prizeProject != null and prizeProject != ''"> and prize_project= #{prizeProject} </if>
+            <if test="prizeNum != null and prizeNum != ''"> and prize_num = #{prizeNum} </if>
+            <if test="prizeGrade != null and prizeGrade != ''"> and prize_grade = #{prizeGrade}</if>
+            <if test="adLevel != null and adLevel != ''"> and ad_level = #{adLevel}</if>
+            <if test="prizeDept != null and prizeDept != ''"> and prize_dept = #{prizeDept} </if>
+            <if test="rank != null and rank != ''"> and rank = #{rank} </if>
+            <if test="prizeImgId != null and prizeImgId != ''"> and prize_img_id = #{prizeImgId} </if>
+            <if test="prizeFileId != null and prizeFileId != ''"> and prize_file_id  = #{prizeFileId} </if>
+            <if test="prizeInfo != null and prizeInfo != ''"> and prize_info = #{prizeInfo} </if>
+            <if test="prizeNew != null and prizeNew != ''"> and prize_new = #{prizeNew} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by prize_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_prize
+        <where>
+            <if test="prizeId  != null and prizeId  != ''"> and prize_id  = #{prizeId} </if>
+            <if test="awardee != null and awardee != ''"> and awardee   = #{awardee} </if>
+            <if test="prizeTime != null and prizeTime != ''"> and prize_time = #{prizeTime} </if>
+            <if test="college != null and college != ''"> and college = #{college} </if>
+            <if test="dp != null and dp != ''"> and dp = #{dp}</if>
+            <if test="prizeName  != null and prizeName  != ''"> and prize_name  = #{prizeName} </if>
+            <if test="prizeProject != null and prizeProject != ''"> and prize_project= #{prizeProject} </if>
+            <if test="prizeNum != null and prizeNum != ''"> and prize_num = #{prizeNum} </if>
+            <if test="prizeGrade != null and prizeGrade != ''"> and prize_grade = #{prizeGrade}</if>
+            <if test="adLevel != null and adLevel != ''"> and ad_level = #{adLevel}</if>
+            <if test="prizeDept != null and prizeDept != ''"> and prize_dept = #{prizeDept} </if>
+            <if test="rank != null and rank != ''"> and rank = #{rank} </if>
+            <if test="prizeImgId != null and prizeImgId != ''"> and prize_img_id = #{prizeImgId} </if>
+            <if test="prizeFileId != null and prizeFileId != ''"> and prize_file_id  = #{prizeFileId} </if>
+            <if test="prizeInfo != null and prizeInfo != ''"> and prize_info = #{prizeInfo} </if>
+            <if test="prizeNew != null and prizeNew != ''"> and prize_new = #{prizeNew} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.frode.system.domain.PrizeDO" useGeneratedKeys="true" keyProperty="prizeId">
+        insert into sys_prize
+        (
+            `prize_id`,`awardee`,`prize_time`, `college`,`dp`,
+            `prize_name`,  `prize_project`,`prize_num`,`prize_grade`,`ad_level`,
+            `prize_dept`,`rank`,`prize_img_id`,`prize_file_id`,`prize_info`,
+            `prize_new`,`user_id`
+        )
+        values
+        (
+        #{prizeId}, #{awardee},#{prizeTime},#{college},#{dp},
+        #{prizeName},#{prizeProject},#{prizeNum},#{prizeGrade},#{adLevel},
+        #{prizeDept},#{rank},#{prizeImgId},#{prizeFileId},#{prizeInfo},
+        #{prizeNew},#{userId}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.frode.system.domain.PrizeDO">
+        update sys_prize
+        <set>
+            <if test="awardee != null">`awardee` = #{awardee},</if>
+            <if test="prizeTime != null">`prize_time` = #{prizeTime},</if>
+            <if test="college != null">`college` = #{college},</if>
+            <if test="dp != null">`dp` = #{dp},</if>
+            <if test="prizeName  != null">`prize_name`  = #{prizeName}, </if>
+            <if test="prizeProject != null">`prize_project`= #{prizeProject}, </if>
+            <if test="prizeNum != null">`prize_num` = #{prizeNum}, </if>
+            <if test="prizeGrade != null">`prize_grade` = #{prizeGrade},</if>
+            <if test="adLevel != null">`ad_level` = #{adLevel},</if>
+            <if test="prizeDept != null">`prize_dept` = #{prizeDept}, </if>
+            <if test="rank != null">`rank` = #{rank}, </if>
+            <if test="prizeImgId != null">`prize_img_id` = #{prizeImgId}, </if>
+            <if test="prizeFileId != null">`prize_file_id`  = #{prizeFileId}, </if>
+            <if test="prizeInfo != null">`prize_info` = #{prizeInfo}, </if>
+            <if test="prizeNew != null">`prize_new` = #{prizeNew}, </if>
+            <if test="userId != null">`user_id` = #{userId}, </if>
+        </set>
+        where prize_id = #{prizeId}
+    </update>
+
+    <delete id="remove">
+        delete from sys_prize where prize_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from sys_prize where prize_id in
+        <foreach item="prizeId" collection="array" open="(" separator="," close=")">
+            #{prizeId}
+        </foreach>
+    </delete>
+
+    <select id="listMyPrize" resultType="com.frode.system.domain.PrizeDO">
+        select `prize_id`,`awardee`,`prize_time`, `college`,`dp`,
+        `prize_name`,  `prize_project`,`prize_num`,`prize_grade`,`ad_level`,
+        `prize_dept`,`rank`,`prize_img_id`,`prize_file_id`,`prize_info`,
+        `prize_new`,`user_id`
+        from sys_prize
+        where user_id=#{userId}
+        order by prize_id desc
+    </select>
+    <!--  <select id="listAllNotice" resultType="Long">
+          select DISTINCT project_id from sys_project
+      </select>-->
+</mapper>

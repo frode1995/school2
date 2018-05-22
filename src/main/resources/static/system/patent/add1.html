@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="system/patent/include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title" style="padding-bottom: 0;">
+                    <h3 class="text-center">发布专利信息</h3>
+                    <div class="gg-nav">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#basic_info" data-toggle="tab">专利信息</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <!--basic info-->
+                    <div class="ibox-content tab-pane fade in active"  id="basic_info">
+                        <form class="gg-form" role="form" id="basicInfoForm">
+                            <input name="patentId" type="hidden" /><!--原来有数据的情况下-->
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>专利名称:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" required="required" id="patentName" name="patentName"  placeholder="请输入专利名称" />
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <em class="gg-star">*</em>
+                                    <span>专利作者:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" required="required" id="patentAut" name="patentAut"   placeholder="请输入专利作者" />
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>比例:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="ratio" name="ratio"   placeholder="请输入比例" />
+                                </div>
+                            </div>
+
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>专利类型:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="patentType" name="patentType"   placeholder="请输入专利类型" />
+                                </div>
+                            </div>
+                            <!--专利类型单选框  以后再做-->
+                            <!--  <div class="gg-formGroup">
+                                  <div class="gg-formTitle">
+                                      <span>专利类型:</span>
+                                  </div>
+                                  <div class="gg-formDetail">
+                                      <div class="radio i-checks">
+                                          <label class="radio-inline" th:each="patent_type:${patentTypeList}">
+                                              <input th:field="*{patent.patentType}" type="radio" name="patentType"  th:text="${patent_type.name}"/>
+                                          </label>
+                                      </div>
+                                  </div>
+                              </div>
+  -->
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>专利授权号:</span>
+                                </div>
+                                <div class="gg-formDetail">
+                                    <input type="text" class="form-control" id="patentNum" name="patentNum"   placeholder="请输入专利授权号" />
+                                </div>
+                            </div>
+
+                            <!--时间小工具-->
+                            <div class="gg-formGroup">
+                                <div class="gg-formTitle">
+                                    <span>专利授权时间:</span>
+                                </div>
+                                <div class="gg-formDetail"><!--年选择器、年月选择器、日期选择器、时间选择器、日期时间选择器 -->
+                                    <input type="text" class="laydate-icon layer-date form-control" id="patentTime" name="patentTime"  placeholder="请选择专利授权时间"
+                                           onclick="laydate({istime: true, format: 'YYYY-MM-DD'})" style="background-color: #fff;" readonly="readonly"/>
+                                </div>
+                            </div>
+
+
+                        </form>
+                        <div>
+                            <h5>编辑详情请保存后点击编辑详情按钮</h5>
+                        </div>
+                        <div class="gg-btnGroup">
+                            <button type="button" class="btn btn-sm btn-primary" id="base_save">保存</button>
+                        </div>
+                    </div>
+                    <!--photo_info--><!--可以留着 然后加入 专利相关图片功能-->
+                    <!--  <div class="ibox-content tab-pane fade gg" id="photo_info">
+                          <div class="ggcontainer" id="crop-avatar">
+                              <form class="avatar-form" action="/sys/user/uploadImg" enctype="multipart/form-data" method="post">
+                                  <div class="avatar-body">
+                                      <div class="avatar-upload">
+                                          <input class="avatar-src" name="avatar_src" type="hidden">
+                                          <input class="avatar-data" name="avatar_data" type="hidden">
+                                          <label for="avatarInput">选取文件</label>
+                                          <input class="avatar-input" id="avatarInput" name="avatar_file" type="file">
+                                      </div>
+                                      &lt;!&ndash; Crop and preview &ndash;&gt;
+                                      <div class="row">
+                                          <div class="col-md-9">
+                                              <div class="avatar-wrapper"></div>
+                                          </div>
+                                          <div class="col-md-3">
+                                              <div class="avatar-preview preview-lg"></div>
+                                              <div class="avatar-preview preview-md"></div>
+                                              <div class="avatar-preview preview-sm"></div>
+                                          </div>
+                                      </div>
+
+                                      <div class="row avatar-btns">
+                                          <div class="col-md-9">
+                                              <div class="btn-group">
+                                                  <button class="btn btn-primary" data-method="rotate" data-option="-90" type="button" title="Rotate -90 degrees">左旋转</button>
+                                                  <button class="btn btn-primary" data-method="rotate" data-option="-15" type="button">-15°</button>
+                                                  <button class="btn btn-primary" data-method="rotate" data-option="-30" type="button">-30°</button>
+                                                  <button class="btn btn-primary" data-method="rotate" data-option="-45" type="button">-45°</button>
+                                              </div>
+                                              <div class="btn-group">
+                                                  <button class="btn btn-primary" data-method="rotate" data-option="90" type="button" title="Rotate 90 degrees">右旋转</button>
+                                                  <button class="btn btn-primary" data-method="rotate" data-option="15" type="button">15°</button>
+                                                  <button class="btn btn-primary" data-method="rotate" data-option="30" type="button">30°</button>
+                                                  <button class="btn btn-primary" data-method="rotate" data-option="45" type="button">45°</button>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-3">
+                                              <button class="btn btn-primary btn-block avatar-save" type="submit">完成裁剪</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </form>
+                              &lt;!&ndash; Loading state &ndash;&gt;
+                              <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
+                          </div>
+                      </div>-->
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--<div th:include="include :: footer"></div>-->
+<footer th:include="system/patent/include :: footer"></footer>
+<script type="text/javascript" src="/js/appjs/sys/patent/add1.js"></script>
+</body>
+</html>

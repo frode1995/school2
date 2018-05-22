@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+    <style>
+        .chart{
+            width: 800px;
+            height: 480px;
+            float: left;
+            position: relative;
+
+        }
+
+    </style>
+</head>
+<body class="gray-bg">
+<div class="row">
+
+        <div class="chart" id="chart"><!--刚开始显示一个默认图片style="visibility: hidden" 糟糕,图表被外星人偷走了th:src="${imgUrl}" visibility 占据空间的隐藏-->
+            <img id="imgUrl" height="100%" width="100%"  th:src="${imgUrl}"/>
+            <!--<img id="imgUrl" height="480" width="800" src="../../img/table/barchart.jpg"/>-->
+        </div>
+
+</div>
+<footer th:include="include :: footer"></footer>
+</body>
+</html>

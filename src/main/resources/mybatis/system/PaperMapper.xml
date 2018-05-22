@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.frode.system.dao.PaperDao">
+
+    <select id="get" resultType="com.frode.system.domain.PaperDO">
+        select `paper_id`,`paper_name`,`paper_journal`, `paper_author`,`paper_com_author`,
+            `paper_sign`,  `fir_aut_dept`,`my_dept`,`paper_img_id`,`paper_file_id`,
+            `publish_time`,`paper_new`,`is_journal`,`sci`,`eij`,
+            `eim`,`cscd`,`cn_core`,`cpci`,`ssci`,
+            `cssci`,`ahci`,`sci_num`,`ei_num`,`issn_num`,
+            `paper_info`,`user_id`
+        from sys_paper where paper_id = #{value}
+    </select>
+
+    <select id="list" resultType="com.frode.system.domain.PaperDO">
+        select `paper_id`,`paper_name`,`paper_journal`, `paper_author`,`paper_com_author`,
+        `paper_sign`,  `fir_aut_dept`,`my_dept`,`paper_img_id`,`paper_file_id`,
+        `publish_time`,`paper_new`,`is_journal`,`sci`,`eij`,
+        `eim`,`cscd`,`cn_core`,`cpci`,`ssci`,
+        `cssci`,`ahci`,`sci_num`,`ei_num`,`issn_num`,
+        `paper_info`,`user_id`
+        from sys_paper
+        <where>
+            <if test="paperId  != null and paperId  != ''"> and paper_id  = #{paperId } </if>
+            <if test="paperName != null and paperName != ''"> and paper_name   = #{paperName} </if>
+            <if test="paperJournal != null and paperJournal != ''"> and paper_journal = #{paperJournal} </if>
+            <if test="paperAuthor != null and paperAuthor != ''"> and paper_author = #{paperAuthor} </if>
+            <if test="paperComAuthor != null and paperComAuthor != ''"> and paper_com_author = #{paperComAuthor}</if>
+            <if test="paperSign  != null and paperSign  != ''"> and paper_sign  = #{paperSign} </if>
+            <if test="firAutDept != null and firAutDept != ''"> and fir_aut_dept = #{firAutDept} </if>
+            <if test="myDept != null and myDept != ''"> and my_dept = #{myDept} </if>
+            <if test="paperImgId != null and paperImgId != ''"> and paper_img_id = #{paperImgId}</if>
+            <if test="paperFileId != null and paperFileId != ''"> and paper_file_id = #{paperFileId}</if>
+            <if test="publishTime != null and publishTime != ''"> and publish_time = #{publishTime} </if>
+            <if test="paperNew != null and paperNew != ''"> and paper_new = #{paperNew} </if>
+            <if test="isJournal != null and isJournal != ''"> and is_journal = #{isJournal} </if>
+            <if test="sci != null and sci != ''"> and sci  = #{sci} </if>
+            <if test="eij != null and eij != ''"> and eij = #{eij} </if>
+            <if test="eim != null and eim != ''"> and eim = #{eim} </if>
+            <if test="cscd != null and cscd != ''"> and cscd = #{cscd} </if>
+            <if test="cnCore  != null and cnCore  != ''"> and cn_core  = #{cnCore} </if>
+            <if test="cpci != null and cpci != ''"> and cpci = #{cpci} </if>
+            <if test="ssci != null and ssci != ''"> and ssci = #{ssci} </if>
+            <if test="cssci != null and cssci != ''"> and cssci = #{cssci} </if>
+            <if test="ahci != null and ahci != ''"> and ahci = #{ahci} </if>
+            <if test="sciNum != null and sciNum != ''"> and sci_num = #{sciNum} </if>
+            <if test="eiNum != null and eiNum != ''"> and ei_num = #{eiNum} </if>
+            <if test="issnNum != null and issnNum != ''"> and issn_num = #{issnNum} </if>
+            <if test="paperInfo != null and paperInfo != ''"> and paper_info = #{paperInfo} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by paper_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_paper
+        <where>
+            <if test="paperId  != null and paperId  != ''"> and paper_id  = #{paperId } </if>
+            <if test="paperName != null and paperName != ''"> and paper_name   = #{paperName} </if>
+            <if test="paperJournal != null and paperJournal != ''"> and paper_journal = #{paperJournal} </if>
+            <if test="paperAuthor != null and paperAuthor != ''"> and paper_author = #{paperAuthor} </if>
+            <if test="paperComAuthor != null and paperComAuthor != ''"> and paper_com_author = #{paperComAuthor}</if>
+            <if test="paperSign  != null and paperSign  != ''"> and paper_sign  = #{paperSign} </if>
+            <if test="firAutDept != null and firAutDept != ''"> and fir_aut_dept = #{firAutDept} </if>
+            <if test="myDept != null and myDept != ''"> and my_dept = #{myDept} </if>
+            <if test="paperImgId != null and paperImgId != ''"> and paper_img_id = #{paperImgId}</if>
+            <if test="paperFileId != null and paperFileId != ''"> and paper_file_id = #{paperFileId}</if>
+            <if test="publishTime != null and publishTime != ''"> and publish_time = #{publishTime} </if>
+            <if test="paperNew != null and paperNew != ''"> and paper_new = #{paperNew} </if>
+            <if test="isJournal != null and isJournal != ''"> and is_journal = #{isJournal} </if>
+            <if test="sci != null and sci != ''"> and sci  = #{sci} </if>
+            <if test="eij != null and eij != ''"> and eij = #{eij} </if>
+            <if test="eim != null and eim != ''"> and eim = #{eim} </if>
+            <if test="cscd != null and cscd != ''"> and cscd = #{cscd} </if>
+            <if test="cnCore  != null and cnCore  != ''"> and cn_core  = #{cnCore} </if>
+            <if test="cpci != null and cpci != ''"> and cpci = #{cpci} </if>
+            <if test="ssci != null and ssci != ''"> and ssci = #{ssci} </if>
+            <if test="cssci != null and cssci != ''"> and cssci = #{cssci} </if>
+            <if test="ahci != null and ahci != ''"> and ahci = #{ahci} </if>
+            <if test="sciNum != null and sciNum != ''"> and sci_num = #{sciNum} </if>
+            <if test="eiNum != null and eiNum != ''"> and ei_num = #{eiNum} </if>
+            <if test="issnNum != null and issnNum != ''"> and issn_num = #{issnNum} </if>
+            <if test="paperInfo != null and paperInfo != ''"> and paper_info = #{paperInfo} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.frode.system.domain.PaperDO" useGeneratedKeys="true" keyProperty="paperId">
+        insert into sys_paper
+        (
+            `paper_id`,`paper_name`,`paper_journal`, `paper_author`,`paper_com_author`,
+            `paper_sign`,  `fir_aut_dept`,`my_dept`,`paper_img_id`,`paper_file_id`,
+            `publish_time`,`paper_new`,`is_journal`,`sci`,`eij`,
+            `eim`,`cscd`,`cn_core`,`cpci`,`ssci`,
+            `cssci`,`ahci`,`sci_num`,`ei_num`,`issn_num`,
+            `paper_info`,`user_id`
+        )
+        values
+        (
+        #{paperId}, #{paperName},#{paperJournal},#{paperAuthor},#{paperComAuthor},
+        #{paperSign},#{firAutDept},#{myDept},#{paperImgId},#{paperFileId},
+        #{publishTime},#{paperNew},#{isJournal},#{sci},#{eij},
+        #{eim},#{cscd},#{cnCore},#{cpci},#{ssci},
+        #{cssci},#{ahci},#{sciNum},#{eiNum},#{issnNum},
+        #{paperInfo},#{userId}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.frode.system.domain.PaperDO">
+        update sys_paper
+        <set>
+            <if test="paperName != null ">`paper_name` = #{paperName},</if>
+            <if test="paperJournal != null">`paper_journal` = #{paperJournal},</if>
+            <if test="paperAuthor != null">`paper_author` = #{paperAuthor},</if>
+            <if test="paperComAuthor != null">paper_com_author = #{paperComAuthor},</if>
+            <if test="paperSign  != null ">`paper_sign` = #{paperSign}, </if>
+            <if test="firAutDept != null">`fir_aut_dept` = #{firAutDept}, </if>
+            <if test="myDept != null ">`my_dept` = #{myDept},</if>
+            <if test="paperImgId != null ">`paper_img_id` = #{paperImgId},</if>
+            <if test="paperFileId != null">`paper_file_id` = #{paperFileId},</if>
+            <if test="publishTime != null ">`publish_time` = #{publishTime}, </if>
+            <if test="paperNew != null">`paper_new` = #{paperNew},</if>
+            <if test="isJournal != null">`is_journal` = #{isJournal},</if>
+            <if test="sci != null">`sci`=#{sci},</if>
+            <if test="eij != null">eij=#{eij},</if>
+            <if test="eim != null">`eim`=#{eim},</if>
+            <if test="cscd != null">cscd=#{cscd},</if>
+            <if test="cnCore != null">cn_core=#{cnCore},</if>
+            <if test="cpci != null">`cpci`=#{cpci},</if>
+            <if test="ssci != null">`ssci`=#{ssci},</if>
+            <if test="cssci != null">`cssci`=#{cssci},</if>
+            <if test="ahci != null">ahci=#{ahci},</if>
+            <if test="sciNum != null">sci_num=#{sciNum},</if>
+            <if test="eiNum != null">ei_num=#{eiNum},</if>
+            <if test="issnNum != null">issn_num=#{issnNum},</if>
+            <if test="paperInfo != null">paper_info=#{paperInfo},</if>
+            <if test="userId != null">user_id=#{userId},</if>
+        </set>
+        where paper_id = #{paperId}
+    </update>
+
+    <delete id="remove">
+        delete from sys_paper where paper_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from sys_paper where paper_id in
+        <foreach item="paperId" collection="array" open="(" separator="," close=")">
+            #{paperId}
+        </foreach>
+    </delete>
+
+    <select id="listMyPaper" resultType="com.frode.system.domain.PaperDO">
+        select `paper_id`,`paper_name`,`paper_journal`, `paper_author`,`paper_com_author`,
+        `paper_sign`,  `fir_aut_dept`,`my_dept`,`paper_img_id`,`paper_file_id`,
+        `publish_time`,`paper_new`,`is_journal`,`sci`,`eij`,
+        `eim`,`cscd`,`cn_core`,`cpci`,`ssci`,
+        `cssci`,`ahci`,`sci_num`,`ei_num`,`issn_num`,
+        `paper_info`,`user_id`
+        from sys_paper
+        where user_id=#{userId}
+        order by paper_id desc
+
+    </select>
+   <!-- <select id="getUserIdByName" resultType="long">
+        select `user_id`
+        from sys_user where name = #{value}
+    </select>-->
+    <!--从name得到id-->
+
+    <!--  <select id="listAllNotice" resultType="Long">
+          select DISTINCT project_id from sys_project
+      </select>-->
+</mapper>

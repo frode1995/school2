@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh_CN" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header">
+    <style>
+        .chart{
+            width: 640px;
+            height: 480px;
+            float: left;
+            position: relative;
+
+        }
+
+         .panel-group{max-height:770px;overflow: auto;}
+        .leftMenu{margin:10px;margin-top:5px;}
+        .leftMenu .panel-heading{font-size:14px;padding-left:20px;height:36px;line-height:36px;color:white;position:relative;cursor:pointer;}/*转成手形图标*/
+        .leftMenu .panel-heading span{position:absolute;right:10px;top:12px;}
+        .leftMenu .menu-item-left{padding: 2px; background: transparent; border:1px solid transparent;border-radius: 6px;}
+        .leftMenu .menu-item-left:hover{background:#C4E3F3;border:1px solid #1E90FF;}
+
+    </style>
+</head>
+<body class="gray-bg">
+<div class="row">
+    <div class="col-md-2">
+        <div class="panel-group table-responsive" role="tablist">
+            <div class="panel panel-primary leftMenu">
+                <!-- 利用data-target指定要折叠的分组列表 -->
+                <div class="panel-heading" id="collapseListGroupHeading1" data-toggle="collapse" data-target="#collapseListGroup1" role="tab" >
+                    <h4 class="panel-title">
+                        分组1
+                        <span class="glyphicon glyphicon-chevron-up right"></span>
+                    </h4>
+                </div>
+                <!-- .panel-collapse和.collapse标明折叠元素 .in表示要显示出来 -->
+                <div id="collapseListGroup1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <!-- 利用data-target指定URL -->
+                            <button class="menu-item-left" id="cs" >
+                                <span class="glyphicon glyphicon-triangle-right" ></span>计算机学院
+                            </button>
+                        </li>
+                      <!--  <li class="list-group-item">
+                            <button class="menu-item-left" id="art" >
+                                <span class="glyphicon glyphicon-triangle-right" ></span>艺术学院
+                            </button>
+                        </li>-->
+                       <!-- <li class="list-group-item">  有时间补上
+                            <button class="menu-item-left" id="xindian">
+                                <span class="glyphicon glyphicon-triangle-right"></span>信电学院
+                            </button>
+                        </li>
+                       -->
+                        <li class="list-group-item">
+                            <button class="menu-item-left" id="guanli">
+                                <span class="glyphicon glyphicon-triangle-right"></span>管理学院
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div><!--panel end-->
+
+        </div>
+    </div>
+    <div class="col-md-10"><!--图表展示页-->
+        <div class="chart" id="chart"><!--刚开始显示一个默认图片style="visibility: hidden" 糟糕,图表被外星人偷走了th:src="${imgUrl}" visibility 占据空间的隐藏-->
+            <!--<img id="imgUrl" height="60%" width="100%"  th:src="${imgUrl}"/>-->
+            <img id="imgUrl" height="60%" width="100%"/>
+        </div>
+    </div>
+</div>
+
+
+<footer th:include="include :: footer"></footer>
+<script type="text/javascript" src="/js/appjs/sys/count/users.js"></script>
+<script>
+    $(function(){
+        $(".panel-heading").click(function(e){
+            /*切换折叠指示图标*/
+            $(this).find("span").toggleClass("glyphicon-chevron-down");
+            $(this).find("span").toggleClass("glyphicon-chevron-up");
+        });
+    });
+
+
+
+</script>
+</body>
+</html>

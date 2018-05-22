@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.frode.system.dao.ProjectDao">
+
+    <select id="get" resultType="com.frode.system.domain.ProjectDO">
+        select `project_id`,`project_name`,`project_leader`,`project_info`,`project_img_id`,`project_file_id`,`project_start`,`project_end`,`project_num`,`project_funds`,`project_new`,`user_id` from sys_project where project_id = #{value}
+    </select>
+
+    <select id="list" resultType="com.frode.system.domain.ProjectDO">
+        select `project_id`,`project_name`,`project_leader`,`project_info`,`project_img_id`,`project_file_id`,`project_start`,`project_end`,`project_num`,`project_funds`,`project_new`,`user_id` from sys_project
+        <where>
+            <if test="projectId != null and projectId != ''"> and project_id = #{projectId} </if>
+            <if test="projectName != null and projectName != ''"> and project_name  = #{projectName} </if>
+            <if test="projectLeader != null and projectLeader != ''"> and project_leader = #{projectLeader} </if>
+            <if test="projectInfo != null and projectInfo != ''"> and project_info = #{projectInfo} </if>
+            <if test="projectImgId != null and projectImgId != ''"> and project_img_id = #{projectImgId} </if>
+            <if test="projectFileId  != null and projectFileId  != ''"> and project_file_id  = #{projectFileId} </if>
+            <if test="projectStart != null and projectStart != ''"> and project_start = #{projectStart} </if>
+            <if test="projectEnd != null and projectEnd != ''"> and project_end = #{projectEnd} </if>
+            <if test="projectNum != null and projectNum != ''"> and project_num = #{projectNum} </if>
+            <if test="projectFunds != null and projectFunds != ''"> and project_funds = #{projectFunds} </if>
+            <if test="projectNew != null and projectNew != ''"> and project_new = #{projectNew} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by project_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_project
+        <where>
+            <if test="projectId != null and projectId != ''"> and project_id = #{projectId} </if>
+            <if test="projectName != null and projectName != ''"> and project_name  = #{projectName} </if>
+            <if test="projectLeader != null and projectLeader != ''"> and project_leader = #{projectLeader} </if>
+            <if test="projectInfo != null and projectInfo != ''"> and project_info = #{projectInfo} </if>
+            <if test="projectImgId != null and projectImgId != ''"> and project_img_id = #{projectImgId} </if>
+            <if test="projectFileId  != null and projectFileId  != ''"> and project_file_id  = #{projectFileId} </if>
+            <if test="projectStart != null and projectStart != ''"> and project_start = #{projectStart} </if>
+            <if test="projectEnd != null and projectEnd != ''"> and project_end = #{projectEnd} </if>
+            <if test="projectNum != null and projectNum != ''"> and project_num = #{projectNum} </if>
+            <if test="projectFunds != null and projectFunds != ''"> and project_funds = #{projectFunds} </if>
+            <if test="projectNew != null and projectNew != ''"> and project_new = #{projectNew} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.frode.system.domain.ProjectDO" useGeneratedKeys="true" keyProperty="projectId">
+        insert into sys_project
+        (
+            `project_id`,`project_name`,`project_leader`,`project_info`,`project_img_id`,`project_file_id`,`project_start`,`project_end`,`project_num`,`project_funds`,`project_new`,`user_id`
+        )
+        values
+        (
+        #{projectId},
+        #{projectName},
+        #{projectLeader},
+        #{projectInfo},
+        #{projectImgId},
+        #{projectFileId},
+        #{projectStart},
+        #{projectEnd},
+        #{projectNum},
+        #{projectFunds},
+        #{projectNew},
+        #{userId}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.frode.system.domain.ProjectDO">
+        update sys_project
+        <set>
+            <if test="projectName != null">`project_name`  = #{projectName},</if>
+            <if test="projectLeader != null">`project_leader` = #{projectLeader},</if>
+            <if test="projectInfo != null "> `project_info`  = #{projectInfo},</if>
+            <if test="projectImgId != null ">`project_img_id`  = #{projectImgId},</if>
+            <if test="projectFileId  != null ">`project_file_id`   = #{projectFileId}, </if>
+            <if test="projectStart != null">`project_start`  = #{projectStart}, </if>
+            <if test="projectEnd != null"> `project_end`  = #{projectEnd}, </if>
+            <if test="projectNum != null"> `project_num`  = #{projectNum}, </if>
+            <if test="projectFunds != null ">`project_funds`  = #{projectFunds}, </if>
+            <if test="projectNew != null ">`project_new`  = #{projectNew}, </if>
+            <if test="userId != null">`user_id`  = #{userId}, </if>
+        </set>
+        where project_id = #{projectId}
+    </update>
+
+    <delete id="remove">
+        delete from sys_project where project_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from sys_project where project_id in
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+
+    <select id="listMyProject" resultType="com.frode.system.domain.ProjectDO">
+        select `project_id`,`project_name`,`project_leader`,`project_info`,
+            `project_img_id`,`project_file_id`,`project_start`,
+            `project_end`,`project_num`,`project_funds`,`project_new`,
+            `user_id` from sys_project
+        where user_id=#{userId}
+        order by project_id desc
+    </select>
+  <!--  <select id="listAllNotice" resultType="Long">
+        select DISTINCT project_id from sys_project
+    </select>-->
+</mapper>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.frode.system.dao.PatentDao">
+
+    <select id="get" resultType="com.frode.system.domain.PatentDO">
+        select `patent_id`,`patent_name`,`patent_type`,`patent_aut`,`ratio`,`patent_num`,
+            `patent_img_id`,`patent_file_id`,`patent_time`,`patent_new`,`patent_info`,
+            `user_id` from sys_patent where patent_id = #{value}
+    </select>
+
+    <select id="list" resultType="com.frode.system.domain.PatentDO">
+        select `patent_id`,`patent_name`,`patent_type`,`patent_aut`,`ratio`,`patent_num`,
+        `patent_img_id`,`patent_file_id`,`patent_time`,`patent_new`,`patent_info`,
+        `user_id` from sys_patent
+        <where>
+            <if test="patentId != null and patentId != ''"> and patent_id = #{patentId} </if>
+            <if test="patentName != null and patentName != ''"> and patent_name  = #{patentName} </if>
+            <if test="patentType != null and patentType != ''"> and patent_type = #{patentType} </if>
+            <if test="patentAut != null and patentAut != ''"> and patent_aut = #{patentAut} </if>
+            <if test="ratio != null and ratio != ''"> and ratio = #{ratio} </if>
+            <if test="patentNum  != null and patentNum  != ''"> and patent_num  = #{patentNum} </if>
+            <if test="patentImgId != null and patentImgId != ''"> and patent_img_id = #{patentImgId} </if>
+            <if test="patentFileId != null and patentFileId != ''"> and patent_file_id = #{patentFileId} </if>
+            <if test="patentTime != null and patentTime != ''"> and patent_time = #{patentTime} </if>
+            <if test="patentNew != null and patentNew != ''"> and patent_new = #{patentNew} </if>
+            <if test="patentInfo != null and patentInfo != ''"> and patent_info = #{patentInfo} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by patent_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_patent
+        <where>
+            <if test="patentId != null and patentId != ''"> and patent_id = #{patentId} </if>
+            <if test="patentName != null and patentName != ''"> and patent_name  = #{patentName} </if>
+            <if test="patentType != null and patentType != ''"> and patent_type = #{patentType} </if>
+            <if test="patentAut != null and patentAut != ''"> and patent_aut = #{patentAut} </if>
+            <if test="ratio != null and ratio != ''"> and ratio = #{ratio} </if>
+            <if test="patentNum  != null and patentNum  != ''"> and patent_num  = #{patentNum} </if>
+            <if test="patentImgId != null and patentImgId != ''"> and patent_img_id = #{patentImgId} </if>
+            <if test="patentFileId != null and patentFileId != ''"> and patent_file_id = #{patentFileId} </if>
+            <if test="patentTime != null and patentTime != ''"> and patent_time = #{patentTime} </if>
+            <if test="patentNew != null and patentNew != ''"> and patent_new = #{patentNew} </if>
+            <if test="patentInfo != null and patentInfo != ''"> and patent_info = #{patentInfo} </if>
+            <if test="userId != null and userId != ''"> and user_id = #{userId} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.frode.system.domain.PatentDO" useGeneratedKeys="true" keyProperty="patentId">
+        insert into sys_patent
+        (
+            `patent_id`,`patent_name`,`patent_type`,`patent_aut`,`ratio`,`patent_num`,
+            `patent_img_id`,`patent_file_id`,`patent_time`,`patent_new`,`patent_info`,
+            `user_id`
+        )
+        values
+        (
+        #{patentId},
+        #{patentName},
+        #{patentType},
+        #{patentAut},
+        #{ratio},
+        #{patentNum},
+        #{patentImgId},
+        #{patentFileId},
+        #{patentTime},
+        #{patentNew},
+        #{patentInfo},
+        #{userId}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.frode.system.domain.PatentDO">
+        update sys_patent
+        <set>
+            <if test="patentName != null"> `patent_name`  = #{patentName},</if>
+            <if test="patentType != null">`patent_type` = #{patentType},</if>
+            <if test="patentAut != null ">`patent_aut` = #{patentAut},</if>
+            <if test="ratio != null">`ratio` = #{ratio},</if>
+            <if test="patentNum  != null">`patent_num`  = #{patentNum},</if>
+            <if test="patentImgId != null">`patent_img_id` = #{patentImgId},</if>
+            <if test="patentFileId != null">`patent_file_id` = #{patentFileId},</if>
+            <if test="patentTime != null">`patent_time` = #{patentTime},</if>
+            <if test="patentNew != null">`patent_new` = #{patentNew},</if>
+            <if test="patentInfo != null">`patent_info` = #{patentInfo},</if>
+            <if test="userId != null">`user_id` = #{userId},</if>
+        </set>
+        where patent_id = #{patentId}
+    </update>
+
+    <delete id="remove">
+        delete from sys_patent where patent_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from sys_patent where patent_id in
+        <foreach item="patentId" collection="array" open="(" separator="," close=")">
+            #{patentId}
+        </foreach>
+    </delete>
+
+    <select id="listMyPatent" resultType="com.frode.system.domain.PatentDO">
+        select `patent_id`,`patent_name`,`patent_type`,`patent_aut`,`ratio`,`patent_num`,
+        `patent_img_id`,`patent_file_id`,`patent_time`,`patent_new`,`patent_info`,
+        `user_id` from sys_patent
+        where user_id=#{userId}
+        order by patent_id desc
+    </select>
+    <!--  <select id="listAllNotice" resultType="Long">
+          select DISTINCT project_id from sys_project
+      </select>-->
+</mapper>

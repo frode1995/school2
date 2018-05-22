@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.frode.system.dao.InfoDao">
+
+    <select id="get" resultType="com.frode.system.domain.InfoDO">
+        select `info_id`,`title`,`created`,`modified`,`content`,`type`,`tags`,`categories`,`status`,`author`,`gtm_create`,`gtm_modified` from sys_info where info_id = #{value}
+    </select>
+
+    <select id="list" resultType="com.frode.system.domain.InfoDO">
+        select `info_id`,`title`,`created`,`modified`,`content`,`type`,`tags`,`categories`,`status`,`author`,`gtm_create`,`gtm_modified` from sys_info
+        <where>
+            <if test="infoId != null and infoId != ''"> and info_id = #{infoId} </if>
+            <if test="title != null and title != ''"> and title = #{title} </if>
+            <if test="created != null and created != ''"> and created = #{created} </if>
+            <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+            <if test="content != null and content != ''"> and content = #{content} </if>
+            <if test="type != null and type != ''"> and type = #{type} </if>
+            <if test="tags != null and tags != ''"> and tags = #{tags} </if>
+            <if test="categories != null and categories != ''"> and categories = #{categories} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="author != null and author != ''"> and author = #{author} </if>
+            <if test="gtmCreate != null and gtmCreate != ''"> and gtm_create = #{gtmCreate} </if>
+            <if test="gtmModified != null and gtmModified != ''"> and gtm_modified = #{gtmModified} </if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+            <otherwise>
+                order by info_id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit ${offset}, ${limit}
+        </if>
+    </select>
+
+    <select id="count" resultType="int">
+        select count(*) from sys_info
+        <where>
+            <if test="infoId != null and infoId != ''"> and info_id = #{infoId} </if>
+            <if test="title != null and title != ''"> and title = #{title} </if>
+            <if test="created != null and created != ''"> and created = #{created} </if>
+            <if test="modified != null and modified != ''"> and modified = #{modified} </if>
+            <if test="content != null and content != ''"> and content = #{content} </if>
+            <if test="type != null and type != ''"> and type = #{type} </if>
+            <if test="tags != null and tags != ''"> and tags = #{tags} </if>
+            <if test="categories != null and categories != ''"> and categories = #{categories} </if>
+            <if test="status != null and status != ''"> and status = #{status} </if>
+            <if test="author != null and author != ''"> and author = #{author} </if>
+            <if test="gtmCreate != null and gtmCreate != ''"> and gtm_create = #{gtmCreate} </if>
+            <if test="gtmModified != null and gtmModified != ''"> and gtm_modified = #{gtmModified} </if>
+        </where>
+    </select>
+
+    <insert id="save" parameterType="com.frode.system.domain.InfoDO" useGeneratedKeys="true" keyProperty="infoId">
+        insert into sys_info
+        (
+        `title`,
+        `created`,
+        `modified`,
+        `content`,
+        `type`,
+        `tags`,
+        `categories`,
+        `status`,
+        `author`,
+        `gtm_create`,
+        `gtm_modified`
+        )
+        values
+        (
+        #{title},
+        #{created},
+        #{modified},
+        #{content},
+        #{type},
+        #{tags},
+        #{categories},
+        #{status},
+        #{author},
+        #{gtmCreate},
+        #{gtmModified}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.frode.system.domain.InfoDO">
+        update sys_info
+        <set>
+            <if test="title != null">`title` = #{title}, </if>
+
+            <if test="created != null">`created` = #{created}, </if>
+            <if test="modified != null">`modified` = #{modified}, </if>
+            <if test="content != null">`content` = #{content}, </if>
+            <if test="type != null">`type` = #{type}, </if>
+            <if test="tags != null">`tags` = #{tags}, </if>
+            <if test="categories != null">`categories` = #{categories}, </if>
+            <if test="status != null">`status` = #{status}, </if>
+            <if test="author != null">`author` = #{author}, </if>
+            <if test="gtmCreate != null">`gtm_create` = #{gtmCreate}, </if>
+            <if test="gtmModified != null">`gtm_modified` = #{gtmModified}</if>
+        </set>
+        where info_id = #{infoId}
+    </update>
+
+    <delete id="remove">
+        delete from sys_info where info_id = #{value}
+    </delete>
+
+    <delete id="batchRemove">
+        delete from sys_info where info_id in
+        <foreach item="infoId" collection="array" open="(" separator="," close=")">
+            #{infoId}
+        </foreach>
+    </delete>
+
+</mapper>
